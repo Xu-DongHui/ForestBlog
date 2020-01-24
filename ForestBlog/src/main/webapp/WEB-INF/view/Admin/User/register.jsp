@@ -62,15 +62,15 @@
     <form name="loginForm" id="loginForm"  method="post">
         <p>
             <label class="layui-form-label">用户名</label>
-            <input type="text" name="userName" class="input" required>
+            <input type="text" name="userName" id="userName" class="input" required>
         </p>
         <p>
             <label class="layui-form-label">密码</label>
-            <input type="password" name="password" class="input" required>
+            <input type="password" name="password" id="password" class="input" required>
         </p>
         <p>
             <label class="layui-form-label">确认密码</label>
-            <input type="password" name="password" class="input" required>
+            <input type="password" name="certainPassword" id="certainPassword" class="input" required>
         </p>
         <p>
             <label class="layui-form-label">验证码</label>
@@ -109,6 +109,44 @@
         url = url + "?timestamp=" + timestamp;
         return url;
     }
+
+    <%--登录验证--%>
+    $("#submit-btn").click(function () {
+        var user = $("#userName").val();
+        var password = $("#password").val();
+        var certainPassword = $("#certainPassword").val();
+        if(user=="") {
+            alert("用户名不可为空!");
+        } else if(password==""){
+            alert("密码不可为空!");
+        } else if (certainPassword=="") {
+            alert("请确认密码!");
+        } else if (password!=certainPassword) {
+            alert("两次密码输入不一致");
+        } else {
+            $.ajax({
+                async: false,//同步，待请求完毕后再执行后面的代码
+                type: "POST",
+                url: '/register/login',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                data: $("#loginForm").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    if(data.code==0) {
+                        alert(data.msg);
+                    } else if (data.code == 1) {
+                        alert(data.msg);
+                        changeImg();
+                    } else {
+                            window.location.href="/admin";
+                    }
+                },
+                error: function () {
+                    alert("数据获取失败")
+                }
+            })
+        }
+    })
 </script>
 </body>
 </html>

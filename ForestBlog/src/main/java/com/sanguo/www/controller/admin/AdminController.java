@@ -1,5 +1,7 @@
 package com.sanguo.www.controller.admin;
 
+import com.alibaba.druid.util.StringUtils;
+import com.sanguo.www.dto.JsonResult;
 import com.sanguo.www.entity.Article;
 import com.sanguo.www.entity.Comment;
 import com.sanguo.www.entity.User;
@@ -160,5 +162,26 @@ public class AdminController {
         session.setAttribute("code", vCode.getCode());
         vCode.write(response.getOutputStream());
         return null;
+    }
+
+    /**
+     * 用户注册
+     *
+     * @return
+     * @author xudonghui
+     * @date 2020/1/24
+     */
+    @RequestMapping(value = "/register/login", method = RequestMethod.POST)
+    @ResponseBody //需要加上ResponseBody注解否则解析为视图
+    public JsonResult registerLogin(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        JsonResult result = new JsonResult();
+        String code = request.getParameter("code");
+        HttpSession session = request.getSession();
+        String sessionCode = (String) session.getAttribute("code");
+        if (!StringUtils.equalsIgnoreCase(code, sessionCode)) {  //忽略验证码大小写
+//    	    throw new RuntimeException("验证码对应不上code=" + code + "  sessionCode=" + sessionCode);
+            return result.fail("验证码输入错误");
+        }
+        return result.ok();
     }
 }

@@ -7,6 +7,7 @@ import com.sanguo.www.service.ArticleService;
 import com.sanguo.www.service.CommentService;
 import com.sanguo.www.service.UserService;
 import com.sanguo.www.util.MyUtils;
+import com.sanguo.www.util.VerificationCodeImgUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -124,6 +125,40 @@ public class AdminController {
         session.invalidate();
         return "redirect:/login";
     }
+    
+    /**
+     * 用户注册
+     *
+     * @return
+     * @author xudonghui
+     * @date 2020/1/23
+     */
+    @RequestMapping("/register")
+    public String registerPage() {
+        return "Admin/User/register";
+    }
 
+    /**
+     * 生成验证码
+     *
+     * @return
+     * @author xudonghui
+     * @date 2020/1/24
+     */
+    @RequestMapping(value="/validateCode")
+    public String validateCode(HttpServletRequest request,HttpServletResponse response) throws Exception{
+        // 设置响应的类型格式为图片格式
+        response.setContentType("image/jpeg");
+        //禁止图像缓存。
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
 
+        HttpSession session = request.getSession();
+
+        VerificationCodeImgUtil vCode = new VerificationCodeImgUtil(120,40,5,100);
+        session.setAttribute("code", vCode.getCode());
+        vCode.write(response.getOutputStream());
+        return null;
+    }
 }

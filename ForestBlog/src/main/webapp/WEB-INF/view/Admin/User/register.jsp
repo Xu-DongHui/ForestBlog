@@ -64,9 +64,14 @@
             <label class="layui-form-label">用户名</label>
             <input type="text" name="userName" id="userName" class="input" required>
         </p>
+        <p >
+            <label class="layui-form-label">邮箱</label>
+            <input type="email" name="userEmail" id="userEmail" class="input" value=""
+                   tabindex="3" required>
+        </p>
         <p>
             <label class="layui-form-label">密码</label>
-            <input type="password" name="password" id="password" class="input" required>
+            <input type="password" name="userPass" id="userPass" class="input" required>
         </p>
         <p>
             <label class="layui-form-label">确认密码</label>
@@ -91,6 +96,7 @@
 <div class="clear"></div>
 
 <script src="/js/jquery.min.js"></script>
+<script src="js/md5.js"></script>
 <script type="text/javascript">
 
     // 刷新图片
@@ -110,12 +116,32 @@
         return url;
     }
 
+    //验证邮件的正则表达式
+    function isEmail(mail) {
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (filter.test(mail)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     <%--登录验证--%>
     $("#submit-btn").click(function () {
         var user = $("#userName").val();
-        var password = $("#password").val();
+        var password = $("#userPass").val();
+        password = md5(password);
+
+
         var certainPassword = $("#certainPassword").val();
-        if(user=="") {
+        certainPassword = md5(certainPassword);
+
+
+        var email = $("#userEmail").val();
+        if (!isEmail(email)) {
+            alert("请输入正确的邮箱地址");
+        } else if(user=="") {
             alert("用户名不可为空!");
         } else if(password==""){
             alert("密码不可为空!");
@@ -124,6 +150,8 @@
         } else if (password!=certainPassword) {
             alert("两次密码输入不一致");
         } else {
+            $("#userPass").val(password);
+            $("#certainPassword").val(certainPassword);
             $.ajax({
                 async: false,//同步，待请求完毕后再执行后面的代码
                 type: "POST",
@@ -134,11 +162,12 @@
                 success: function (data) {
                     if(data.code==0) {
                         alert(data.msg);
+                        window.location.href="/admin";
                     } else if (data.code == 1) {
                         alert(data.msg);
                         changeImg();
                     } else {
-                            window.location.href="/admin";
+                            window.location.href="/register";
                     }
                 },
                 error: function () {
@@ -147,6 +176,7 @@
             })
         }
     })
+
 </script>
 </body>
 </html>

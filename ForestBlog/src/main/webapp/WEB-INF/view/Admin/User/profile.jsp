@@ -63,7 +63,7 @@
             <label class="layui-form-label">用户名 </label>
             <div class="layui-input-inline">
                 <input type="text" value="${user.userName}"  id="userName" required
-                       autocomplete="off" class="layui-input" disabled>
+                       autocomplete="off" class="layui-input" readonly="true" disabled>
             </div>
             <div class="layui-form-mid layui-word-aux" id="userNameTips"></div>
         </div>
@@ -80,7 +80,7 @@
             <div class="layui-input-inline">
                 <input type="text"  value="${user.userNickname}" required
                        placeholder="" autocomplete="off" min="2" max="10"
-                       class="layui-input" disabled>
+                       class="layui-input" readonly="true" disabled>
             </div>
             <div class="layui-form-mid layui-word-aux"></div>
         </div>

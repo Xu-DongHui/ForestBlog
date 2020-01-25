@@ -115,6 +115,7 @@
 <div class="clear"></div>
 
 <script src="/js/jquery.min.js"></script>
+<script src="js/md5.js"></script>
 <script type="text/javascript">
 
 
@@ -122,6 +123,8 @@
     $("#submit-btn").click(function () {
         var user = $("#user_login").val();
         var password = $("#user_pass").val();
+        password = md5(password);
+        $("#user_pass").val(password);
         if(user=="") {
             alert("用户名不可为空!");
         } else if(password==""){

@@ -1,5 +1,6 @@
 package com.sanguo.www.controller.admin;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.sanguo.www.dto.JsonResult;
 import com.sanguo.www.entity.Article;
@@ -10,6 +11,7 @@ import com.sanguo.www.service.CommentService;
 import com.sanguo.www.service.UserService;
 import com.sanguo.www.util.MyUtils;
 import com.sanguo.www.util.VerificationCodeImgUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +34,7 @@ import java.util.Map;
 /**
  * @author sanguo
  */
+@Slf4j
 @Controller
 public class AdminController {
     @Autowired
@@ -95,21 +100,25 @@ public class AdminController {
             map.put("msg","");
             //添加session
             request.getSession().setAttribute("user", user);
-            //添加cookie
-            if(rememberme!=null) {
-                //创建两个Cookie对象
-                Cookie nameCookie = new Cookie("username", username);
-                //设置Cookie的有效期为3天
-                nameCookie.setMaxAge(60 * 60 * 24 * 3);
-                Cookie pwdCookie = new Cookie("password", password);
-                pwdCookie.setMaxAge(60 * 60 * 24 * 3);
-                response.addCookie(nameCookie);
-                response.addCookie(pwdCookie);
+            try {
+                //添加cookie
+                if(rememberme!=null) {
+                    //创建两个Cookie对象
+                    //20200125 cookie中不能存储中文，只能ASCII编码
+                    Cookie nameCookie = new Cookie("username", URLEncoder.encode(username, "UTF-8"));
+                    //设置Cookie的有效期为3天
+                    nameCookie.setMaxAge(60 * 60 * 24 * 3);
+                    Cookie pwdCookie = new Cookie("password", password);
+                    pwdCookie.setMaxAge(60 * 60 * 24 * 3);
+                    response.addCookie(nameCookie);
+                    response.addCookie(pwdCookie);
+                }
+                user.setUserLastLoginTime(new Date());
+                user.setUserLastLoginIp(MyUtils.getIpAddr(request));
+                userService.updateUser(user);
+            } catch (Exception e) {
+                log.error("生成Cookie出错 = {}", e.getMessage());
             }
-            user.setUserLastLoginTime(new Date());
-            user.setUserLastLoginIp(MyUtils.getIpAddr(request));
-            userService.updateUser(user);
-
         }
         String result = new JSONObject(map).toString();
         return result;
@@ -173,7 +182,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/register/login", method = RequestMethod.POST)
     @ResponseBody //需要加上ResponseBody注解否则解析为视图
-    public JsonResult registerLogin(HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public JsonResult registerLogin(User user, HttpServletRequest request,HttpServletResponse response) throws Exception {
         JsonResult result = new JsonResult();
         String code = request.getParameter("code");
         HttpSession session = request.getSession();
@@ -182,6 +191,37 @@ public class AdminController {
 //    	    throw new RuntimeException("验证码对应不上code=" + code + "  sessionCode=" + sessionCode);
             return result.fail("验证码输入错误");
         }
-        return result.ok();
+
+        //用户注册信息插入表格
+        try {
+            //USER表中的user_nickName不为空，不知道其他地方是否有用到，先设置为user_name和user_nickName一样
+            user.setUserNickname(user.getUserName());
+            if (user.getUserId() == null) {
+                user.setUserAvatar("/uploads/sanguo.png");
+            }
+            if (userService.insertUser(user) == null) {
+                return result.fail("用户注册失败");
+            }
+            //添加session
+            request.getSession().setAttribute("user", user);
+            //添加cookie
+            String rememberme = request.getParameter("rememberme");
+            if(rememberme!=null) {
+                //创建两个Cookie对象
+                Cookie nameCookie = new Cookie("username", URLEncoder.encode(user.getUserName(), "UTF-8"));
+                //设置Cookie的有效期为3天
+                nameCookie.setMaxAge(60 * 60 * 24 * 3);
+                Cookie pwdCookie = new Cookie("password", user.getUserPass());
+                pwdCookie.setMaxAge(60 * 60 * 24 * 3);
+                response.addCookie(nameCookie);
+                response.addCookie(pwdCookie);
+            }
+            return result.ok();
+        } catch (Exception e) {
+            log.error("user insert error = {}", JSONUtil.toJsonStr(e.getMessage()));
+        }
+        return result.fail();
     }
+
 }
+

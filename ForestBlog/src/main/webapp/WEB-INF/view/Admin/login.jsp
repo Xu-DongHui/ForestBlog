@@ -1,3 +1,5 @@
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.net.URLDecoder" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 
@@ -68,15 +70,16 @@
          Cookie[] cookies = request.getCookies();
          for (int i = 0; i < cookies.length; i++) {//对cookies中的数据进行遍历，找到用户名、密码的数据
              if ("username".equals(cookies[i].getName())) {
-                    username = cookies[i].getValue();
+                    username = URLDecoder.decode(cookies[i].getValue(), "utf-8");
              } else if ("password".equals(cookies[i].getName())) {
-                 password = cookies[i].getValue();
+                 //20200126 md5不能解密，故密码设置为空
+                 //password = cookies[i].getValue();
              }
          }
          %>
     <form name="loginForm" id="loginForm"  method="post">
         <p>
-            <label for="user_login">用户名或电子邮件地址<br />
+            <label for="user_login">用户名<br />
                 <input type="text" name="username" id="user_login" class="input" value="<%=username%>" size="20" required/></label>
         </p>
         <p>
@@ -141,7 +144,7 @@
                     if(data.code==0) {
                         alert(data.msg);
                     } else {
-                        window.location.href="/admin";
+                        window.location.href="/";
 
                     }
                 },

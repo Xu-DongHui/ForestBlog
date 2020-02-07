@@ -52,9 +52,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">用户名 <span style="color: #FF5722; ">*</span></label>
             <div class="layui-input-inline">
+                <%--20200125 用户名暂时由管理员指定，不提供修改判断--%>
                 <input type="text" value="${user.userName}" name="userName" id="userName" required
                        lay-verify="userName"
-                       autocomplete="off" class="layui-input" onblur="checkUserName()">
+                       autocomplete="off" class="layui-input" <%--onblur="checkUserName()"--%> readonly="true">
             </div>
             <div class="layui-form-mid layui-word-aux" id="userNameTips"></div>
         </div>
@@ -71,7 +72,7 @@
             <div class="layui-input-inline">
                 <input type="text" name="userNickname" value="${user.userNickname}" required
                        placeholder="" autocomplete="off" min="2" max="10"
-                       class="layui-input">
+                       class="layui-input" readonly="true">
             </div>
             <div class="layui-form-mid layui-word-aux"></div>
         </div>

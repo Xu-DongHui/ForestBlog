@@ -16,10 +16,30 @@
                         <a href="/admin">登录</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="/admin">进入后台</a>
+                        <div>
+                            <nav  class="main-nav">
+                                <div class="menu-pcmenu-container">
+                                    <ul class="down-menu nav-menu sf-js-enabled sf-arrows">
+                                        <li>
+                                            <img src="${sessionScope.user.userAvatar}" class="layui-nav-img">
+                                        </li>
+                                        <li>
+                                            <a href="/admin/user/profile">${sessionScope.user.userName}</a>
+                                            <ul class="sub-menu">
+                                                <li>
+                                                    <a href="/admin/user/profile">基本资料</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/admin/logout">退出登录</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
                     </c:otherwise>
                 </c:choose>
-                <a href="https://liuyanzhao.com/bulletin/my-service" target="_blank" style="color:red;">毕设代做/有偿服务</a>
             </div>
             <div class="menu-topmenu-container">
                 <ul id="menu-topmenu" class="top-menu">
@@ -42,12 +62,13 @@
     <%--主要菜单 satrt--%>
     <div id="menu-box">
         <div id="top-menu">
-                <span class="nav-search">
-                    <i class="fa fa-search"></i>
-                </span>
-            <div class="logo-site"><h1 class="site-title">
-                <a href="/" title="${options.optionSiteTitle}">${options.optionSiteTitle}</a>
-            </h1>
+            <span class="nav-search">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="logo-site">
+                <h1 class="site-title">
+                    <a href="/" title="${options.optionSiteTitle}">${options.optionSiteTitle}</a>
+                </h1>
                 <p class="site-description">${options.optionSiteDescrption}</p>
             </div><!-- .logo-site -->
             <div id="site-nav-wrap">

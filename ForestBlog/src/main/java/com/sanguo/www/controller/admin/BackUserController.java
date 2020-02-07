@@ -1,13 +1,16 @@
 package com.sanguo.www.controller.admin;
 
 
+import cn.hutool.json.JSONUtil;
 import com.sanguo.www.entity.User;
 import com.sanguo.www.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,6 +23,7 @@ import java.util.Map;
 /**
  * @author sanguo
  */
+@Slf4j
 @Controller
 @RequestMapping("/admin/user")
 public class BackUserController {
@@ -178,13 +182,14 @@ public class BackUserController {
      */
     @RequestMapping(value = "/profile")
     public ModelAndView userProfileView(HttpSession session)  {
-
+        log.info("xudonghui enter");
         ModelAndView modelAndView = new ModelAndView();
         User sessionUser = (User) session.getAttribute("user");
         User user =  userService.getUserById(sessionUser.getUserId());
         modelAndView.addObject("user",user);
 
-        modelAndView.setViewName("Admin/User/profile");
+        modelAndView.setViewName("Admin/User/basicContent");
+        log.info("xudonghui modelAndView = {}", JSONUtil.toJsonStr(modelAndView));
         return modelAndView;
     }
 }

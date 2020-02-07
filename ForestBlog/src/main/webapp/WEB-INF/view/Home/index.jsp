@@ -12,6 +12,7 @@
     <nav class="breadcrumb">
         <div class="bull"><i class="fa fa-volume-up"></i></div>
         <div id="scrolldiv">
+            <%--滚动通知--%>
             <div class="scrolltext">
                 <ul style="margin-top: 0px;">
                     <c:forEach items="${noticeList}" var="n">

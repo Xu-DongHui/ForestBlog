@@ -134,7 +134,7 @@ public class AdminController {
     public String logout(HttpSession session)  {
         session.removeAttribute("user");
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:/";
     }
     
     /**

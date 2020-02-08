@@ -55,7 +55,7 @@
                 <%--20200125 用户名暂时由管理员指定，不提供修改判断--%>
                 <input type="text" value="${user.userName}" name="userName" id="userName" required
                        lay-verify="userName"
-                       autocomplete="off" class="layui-input" <%--onblur="checkUserName()"--%> readonly="true">
+                       autocomplete="off" min="2" max="10" class="layui-input" <%--onblur="checkUserName()"--%> readonly="true">
             </div>
             <div class="layui-form-mid layui-word-aux" id="userNameTips"></div>
         </div>
@@ -63,7 +63,7 @@
             <label class="layui-form-label">密码 <span style="color: #FF5722; ">*</span></label>
             <div class="layui-input-inline">
                 <input type="password" name="userPass" value="${user.userPass}" id="userPass" required
-                       autocomplete="off" class="layui-input" min="3" max="20">
+                       autocomplete="off" class="layui-input" onblur="tranferByMd5()" min="3" max="20">
             </div>
             <div class="layui-form-mid layui-word-aux"></div>
         </div>
@@ -93,16 +93,17 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">状态</label>
+            <label class="layui-form-label">权限</label>
             <div class="layui-input-block">
-                <input type="radio" name="userStatus" value="1" title="正常" <c:if test="${user.userStatus==1}">checked</c:if>>
-                <input type="radio" name="userStatus" value="0" title="禁用" <c:if test="${user.userStatus==0}">checked</c:if>>
+                <%--20200207 userStatus原来是正常和禁用--%>
+                <input type="radio" name="userStatus" value="1" title="管理员" <c:if test="${user.userStatus==1}">checked</c:if>>
+                <input type="radio" name="userStatus" value="0" title="普通用户" <c:if test="${user.userStatus==0}">checked</c:if>>
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="demo1" id="submit-btn">保存</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <%--<button type="reset" class="layui-btn layui-btn-primary">重置</button>--%>
             </div>
         </div>
     </form>
@@ -142,6 +143,12 @@
             });
 
         });
+
+        function tranferByMd5() {
+            var password = $("#userPass").val();
+            password = md5(password);
+            $("#userPass").val(password);
+        }
     </script>
 </rapid:override>
 

@@ -41,16 +41,16 @@
                 <!-- 轮播（Carousel）项目 -->
                 <div class="carousel-inner">
                     <div class="item active">
-                        <a href="https://liuyanzhao.com/6347.html" target="_blank"><img src="https://liuyanzhao.com/wp-content/uploads/2017/04/show4.jpg" alt="【免费开源】一个简单漂亮的Java博客系统-适合初学ssm者" /></a>
-                        <p class="slider-home-title">【免费开源】一个简单漂亮的Java博客系统-适合初学ssm者</p>
+                        <a href="/article/39" target="_blank"><img src="/uploads/2020\2/曹操.jpg" alt="【免费开源】一个简单漂亮的Java博客系统-适合初学ssm者" /></a>
+                        <p class="slider-home-title">兵败赤壁后曹操为什么要“大笑三声”</p>
                     </div>
                     <div class="item">
-                        <a href="https://liuyanzhao.com/6347.html" target="_blank"><img src="https://liuyanzhao.com/wp-content/uploads/2017/04/show4.jpg" alt="【免费开源】一个简单漂亮的Java博客系统-适合初学ssm者" /></a>
-                        <p class="slider-home-title">【免费开源】一个简单漂亮的Java博客系统-适合初学ssm者</p>
+                        <a href="/article/38" target="_blank"><img src="/uploads/2020\2/桃园结义.jpg" alt="三国第4谈 | 桃园结义（下）" /></a>
+                        <p class="slider-home-title">三国第4谈 | 桃园结义（下）</p>
                     </div>
                     <div class="item">
-                        <a href="https://liuyanzhao.com/6347.html" target="_blank"><img src="https://liuyanzhao.com/wp-content/uploads/2017/04/show4.jpg" alt="【免费开源】一个简单漂亮的Java博客系统-适合初学ssm者" /></a>
-                        <p class="slider-home-title">【免费开源】一个简单漂亮的Java博客系统-适合初学ssm者</p>
+                        <a href="/article/37" target="_blank"><img src="/uploads/2020\2/刘备.jpg" alt="三国第4谈 | 桃园结义（上）" /></a>
+                        <p class="slider-home-title">三国第4谈 | 桃园结义（上）</p>
                     </div>
                 </div>
                 <!-- 轮播（Carousel）导航 -->
@@ -160,7 +160,7 @@
 <%--侧边栏 end--%>
 
 <%--友情链接 start--%>
-<rapid:override name="link">
+<%--<rapid:override name="link">
     <div class="links-box">
         <div id="links">
             <c:forEach items="${linkList}" var="l">
@@ -175,7 +175,7 @@
             <div class="clear"></div>
         </div>
     </div>
-</rapid:override>
+</rapid:override>--%>
 <%--友情链接 end--%>
 
 <%@ include file="Public/framework.jsp" %>

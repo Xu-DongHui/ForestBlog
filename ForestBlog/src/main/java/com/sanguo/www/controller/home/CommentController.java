@@ -11,6 +11,7 @@ import com.sanguo.www.service.CommentService;
 import com.sanguo.www.util.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,15 +41,20 @@ public class CommentController {
      */
     @RequestMapping(value = "/comment", method = {RequestMethod.POST})
     public JsonResult insertComment(HttpServletRequest request, Comment comment) {
+
+        if (StringUtils.isEmpty(comment.getCommentAuthorEmail())) {
+            return new JsonResult().fail("请先登录");
+        }
+
         //添加评论
         comment.setCommentCreateTime(new Date());
         comment.setCommentIp(MyUtils.getIpAddr(request));
-        if (request.getSession().getAttribute("user") != null) {
+        /*if (request.getSession().getAttribute("user") != null) {
             comment.setCommentRole(Role.ADMIN.getValue());
         } else {
             comment.setCommentRole(Role.VISITOR.getValue());
-        }
-        comment.setCommentAuthorAvatar(MyUtils.getGravatar(comment.getCommentAuthorEmail()));
+        }*/
+//        comment.setCommentAuthorAvatar(MyUtils.getGravatar(comment.getCommentAuthorEmail()));
 
         //过滤字符，防止XSS攻击
         comment.setCommentContent(HtmlUtil.escape(comment.getCommentContent()));

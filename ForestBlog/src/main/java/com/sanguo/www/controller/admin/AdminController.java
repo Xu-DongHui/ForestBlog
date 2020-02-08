@@ -6,6 +6,7 @@ import com.sanguo.www.dto.JsonResult;
 import com.sanguo.www.entity.Article;
 import com.sanguo.www.entity.Comment;
 import com.sanguo.www.entity.User;
+import com.sanguo.www.enums.UserName;
 import com.sanguo.www.service.ArticleService;
 import com.sanguo.www.service.CommentService;
 import com.sanguo.www.service.UserService;
@@ -130,7 +131,7 @@ public class AdminController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/admin/logout")
+    @RequestMapping(value = "/logout")
     public String logout(HttpSession session)  {
         session.removeAttribute("user");
         session.invalidate();
@@ -195,9 +196,18 @@ public class AdminController {
         //用户注册信息插入表格
         try {
             //USER表中的user_nickName不为空，不知道其他地方是否有用到，先设置为user_name和user_nickName一样
+            for (UserName name : UserName.values()) {
+                if (Integer.valueOf(user.getUserName()) == name.getId() ) {
+                    user.setUserName(name.getName());
+                    user.setUserStatus(name.getRole());
+                    user.setUserAvatar(name.getImg());
+                    break;
+                }
+            }
             user.setUserNickname(user.getUserName());
-            if (user.getUserId() == null) {
-                user.setUserAvatar("/uploads/sanguo.png");
+            log.info("xudonghui user = {}", JSONUtil.toJsonStr(user));
+            if (userService.getUserByName(user.getUserName()) != null) {
+                return result.fail(user.getUserName() + "已注册");
             }
             if (userService.insertUser(user) == null) {
                 return result.fail("用户注册失败");

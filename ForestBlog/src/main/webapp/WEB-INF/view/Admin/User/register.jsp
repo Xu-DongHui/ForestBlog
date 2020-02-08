@@ -62,7 +62,14 @@
     <form name="loginForm" id="loginForm"  method="post">
         <p>
             <label class="layui-form-label">用户名</label>
-            <input type="text" name="userName" id="userName" class="input" required>
+            <%--<input type="text" name="userName" id="userName" class="input" required>--%>
+            <!-- 下拉框 -->
+            <select name="userName" class="input">
+                <option value="1">罗贯中</option>
+                <option value="2">刘备</option>
+                <option value="3">曹操</option>
+                <option value="4">孙权</option>
+            </select>
         </p>
         <p >
             <label class="layui-form-label">邮箱</label>
@@ -165,13 +172,19 @@
                         window.location.href="/admin";
                     } else if (data.code == 1) {
                         alert(data.msg);
+                        $("#userPass").val("");
+                        $("#certainPassword").val("");
                         changeImg();
                     } else {
                             window.location.href="/register";
+                            $("#userPass").val("");
+                            $("#certainPassword").val("");
                     }
                 },
                 error: function () {
-                    alert("数据获取失败")
+                    alert("数据获取失败");
+                    $("#userPass").val("");
+                    $("#certainPassword").val("");
                 }
             })
         }

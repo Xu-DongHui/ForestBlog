@@ -24,14 +24,28 @@
                                             <img src="${sessionScope.user.userAvatar}" class="layui-nav-img">
                                         </li>
                                         <li>
-                                            <a href="/admin/user/profile">${sessionScope.user.userName}</a>
+                                            <a>${sessionScope.user.userName}</a>
                                             <ul class="sub-menu">
                                                 <li>
-                                                    <a href="/admin/user/profile">基本资料</a>
+                                                    <a href="/basic/user/profile">基本资料</a>
                                                 </li>
                                                 <li>
-                                                    <a href="/admin/logout">退出登录</a>
+                                                    <a href="/logout">退出登录</a>
                                                 </li>
+                                                <c:choose>
+                                                    <%--userStatus为1代表为管理员，有进入后台的选项--%>
+                                                    <c:when test="${sessionScope.user.userStatus==1}">
+                                                        <li>
+                                                            <a href="/admin">进入后台</a>
+                                                        </li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <%--暂时不提供普通用户写文章的功能--%>
+                                                        <%--<li>
+                                                            <a href="/basic/article/insert">写文章</a>
+                                                        </li>--%>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </ul>
                                         </li>
                                     </ul>

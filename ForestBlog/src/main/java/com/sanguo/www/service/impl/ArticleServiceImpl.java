@@ -142,6 +142,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticle(Integer id) {
         articleMapper.deleteById(id);
+        articleCategoryRefMapper.deleteByArticleId(id);
     }
 
 

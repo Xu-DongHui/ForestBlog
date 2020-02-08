@@ -1,16 +1,15 @@
-package com.sanguo.www.controller.admin;
+package com.sanguo.www.controller.basic;
 
 import cn.hutool.http.HtmlUtil;
 import com.github.pagehelper.PageInfo;
 import com.sanguo.www.dto.ArticleParam;
 import com.sanguo.www.entity.Article;
-import com.sanguo.www.service.ArticleService;
-import com.sanguo.www.service.CategoryService;
-import com.sanguo.www.service.TagService;
-
 import com.sanguo.www.entity.Category;
 import com.sanguo.www.entity.Tag;
 import com.sanguo.www.entity.User;
+import com.sanguo.www.service.ArticleService;
+import com.sanguo.www.service.CategoryService;
+import com.sanguo.www.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +29,8 @@ import java.util.List;
  * @author sanguo
  */
 @Controller
-@RequestMapping("/admin/article")
-public class BackArticleController {
+@RequestMapping("/basic/article")
+public class BasicArticleController {
     @Autowired
     private ArticleService articleService;
 
@@ -40,28 +39,6 @@ public class BackArticleController {
 
     @Autowired
     private CategoryService categoryService;
-
-    /**
-     * 后台文章列表显示
-     *
-     * @return modelAndView
-     */
-    @RequestMapping(value = "")
-    public String index(@RequestParam(required = false, defaultValue = "1") Integer pageIndex,
-                        @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                        @RequestParam(required = false) String status, Model model) {
-        HashMap<String, Object> criteria = new HashMap<>(1);
-        if (status == null) {
-            model.addAttribute("pageUrlPrefix", "/admin/article?pageIndex");
-        } else {
-            criteria.put("status", status);
-            model.addAttribute("pageUrlPrefix", "/admin/article?status=" + status + "&pageIndex");
-        }
-        PageInfo<Article> articlePageInfo = articleService.pageArticle(pageIndex, pageSize, criteria);
-        model.addAttribute("pageInfo", articlePageInfo);
-        return "Admin/Article/index";
-    }
-
 
     /**
      * 后台添加文章页面显示
@@ -135,7 +112,6 @@ public class BackArticleController {
     @RequestMapping(value = "/delete/{id}")
     public void deleteArticle(@PathVariable("id") Integer id) {
         articleService.deleteArticle(id);
-
     }
 
 

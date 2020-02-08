@@ -10,7 +10,7 @@
      style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
 
     <%--关于本站 start--%>
-    <aside class="widget about">
+    <%--<aside class="widget about">
         <h3 class="widget-title">
             <i class="fa fa-bars"></i>关于本站
         </h3>
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="clear"></div>
-    </aside>
+    </aside>--%>
     <%--关于本站 start--%>
 
     <%--网站概况 start--%>
@@ -78,7 +78,7 @@
                 <li><i class="fa fa-commenting-o"></i> 留言数量：${siteBasicStatistics[1]} 条</li>
                 <li><i class="fa fa-folder-o"></i> 分类数量：${siteBasicStatistics[2]} 个</li>
                 <li><i class="fa fa-tags"></i> 标签总数：${siteBasicStatistics[3]} 个</li>
-                <li><i class="fa fa-link"></i> 链接数量：${siteBasicStatistics[4]} 个</li>
+                <%--<li><i class="fa fa-link"></i> 链接数量：${siteBasicStatistics[4]} 个</li>--%>
                 <li><i class="fa fa-eye"></i> 浏览总量：${siteBasicStatistics[5]} 次</li>
                 <li><i class="fa fa-pencil-square-o"></i> 最后更新：
                     <span style="color:#2F889A">

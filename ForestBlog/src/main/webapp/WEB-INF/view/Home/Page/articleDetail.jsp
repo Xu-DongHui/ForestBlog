@@ -64,13 +64,13 @@
                     <div class="s-weixin">
                         <ul class="weimg1">
                             <li><strong>微信</strong></li>
-                            <li>赶快加我聊天吧</li>
-                            <li><img src="/img/weixin.jpg"></li>
+                            <li>有朋自远方来</li>
+                            <li><img src="/img/weixinhao.jpg"></li>
                         </ul>
                         <ul class="weimg2">
-                            <li><strong>博客交流群</strong></li>
-                            <li>海纳百川，大家来水</li>
-                            <li><img src="/img/qqGroup.jpg" alt="weinxin"></li>
+                            <li><strong>微信公众号</strong></li>
+                            <li>更多精彩，欢迎交流</li>
+                            <li><img src="/img/gongzhonghao.jpg" alt="weinxin"></li>
                         </ul>
                         <div class="clear"></div>
                     </div>
@@ -91,7 +91,7 @@
                                     <a onclick="PaymentUtils.show();" style="cursor:pointer">赏</a>
                                 </span>
                             </div>
-                            <div class="share-sd">
+                            <%--<div class="share-sd">
                                         <span class="share-s" style="margin-top: 25px!important;">
                                             <a href="javascript:void(0)" id="share-s" title="分享">
                                                 <i class="fa fa-share-alt"></i>分享
@@ -113,7 +113,7 @@
                                                onclick="return false;" href="#"></a></li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>--%>
                             <div class="clear"></div>
                         </div>
                     </div>
@@ -302,12 +302,13 @@
                     <form id="comment_form" method="post">
                         <c:if test="${sessionScope.user!=null}">
                             <div class="user_avatar">
-                                <img alt="言曌"
+                                <img alt="三国醉谈"
                                      src="${sessionScope.user.userAvatar}"
                                      class="avatar avatar-64 photo" height="64" width="64">
                                 登录者：${sessionScope.user.userNickname}
-                                <br> <a href="javascript:void(0)" onclick="logout()">登出</a>
-                                <input type="hidden" name="commentRole" value="1">
+                                <%--<br> <a href="javascript:void(0)" onclick="logout()">登出</a>--%>
+                                <input type="hidden" name="commentAuthorAvatar" value="${sessionScope.user.userAvatar}">
+                                <input type="hidden" name="commentRole" value="${sessionScope.user.userStatus}">
                                 <input type="hidden" name="commentAuthorName"
                                        value="${sessionScope.user.getUserNickname()}">
                                 <input type="hidden" name="commentAuthorEmail"
@@ -318,8 +319,8 @@
                         <p class="comment-form-comment">
                             <textarea id="comment" name="commentContent" rows="4" tabindex="1" required></textarea>
                         </p>
-                        <div id="comment-author-info">
-                            <input type="hidden" name="commentPid" value="0">
+                        <%--<div id="comment-author-info">
+                            <<input type="hidden" name="commentPid" value="0">
                             <input type="hidden" name="commentPname" value="">
                             <c:if test="${sessionScope.user == null}">
                                 <input type="hidden" name="commentRole" value="0">
@@ -343,7 +344,7 @@
                                            tabindex="4">
                                 </p>
                             </c:if>
-                        </div>
+                        </div>--%>
                         <div class="clear"></div>
                         <p class="form-submit">
                             <input id="submit" name="submit" type="submit" tabindex="5" value="提交评论">
@@ -377,19 +378,19 @@
                                             <span class="ua-info" style="display: inline;">
                                                 <br>
                                                 <span class="comment-aux">
-                                                    <span class="reply">
+                                                    <%--<span class="reply">
                                                         <a rel="nofollow" class="comment-reply-link" href="#respond"
                                                            onclick="replyComment()">回复
                                                         </a>
-                                                    </span>
+                                                    </span>--%>
                                                     <fmt:formatDate value="${c.commentCreateTime}"
                                                                     pattern="yyyy年MM月dd日 HH:mm:ss"/>&nbsp;
-                                                    <c:if test="${sessionScope.user != null}">
+                                                    <c:if test="${sessionScope.user.userStatus == 1}">
                                                         <a href="javascript:void(0)"
                                                            onclick="deleteComment(${c.commentId})">删除</a>
-                                                        <a class="comment-edit-link"
+                                                        <%--<a class="comment-edit-link"
                                                            href="/admin/comment/edit/${c.commentId}"
-                                                           target="_blank">编辑</a>
+                                                           target="_blank">编辑</a>--%>
                                                     </c:if>
                                                     <span class="floor"> &nbsp;${floor}楼 </span>
                                                 </span>
@@ -403,7 +404,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <ul class="children">
+                                <%--<ul class="children">
                                     <c:set var="floor2" value="0"/>
                                     <c:forEach items="${commentList}" var="c2">
                                         <c:if test="${c.commentId == c2.commentPid}">
@@ -416,13 +417,13 @@
                                                     <div class="comment-author vcard">
                                                         <img class="avatar" src="${c2.commentAuthorAvatar}" alt="avatar"
                                                              style="display: block;">
-                                                        <strong>${c2.commentAuthorName} </strong>
+                                                       <strong>${c2.commentAuthorName} </strong>
                                                         <c:if test="${c2.commentRole==1}">
                                                             <i class="fa fa-black-tie" style="color: #c40000;"></i>
                                                             <span class=""
                                                                   style="margin-top: 2px!important;color: #c40000;font-size: 13px;;"><b>博主</b></span>
                                                         </c:if>
-                                                        <span class="comment-meta">
+                                                         <span class="comment-meta">
                                                     <span class="ua-info" style="display: inline;">
                                                     <br>
                                                     <span class="comment-aux">
@@ -457,7 +458,7 @@
                                             </li>
                                         </c:if>
                                     </c:forEach>
-                                </ul>
+                                </ul>--%>
                             </li>
                         </c:if>
                     </c:forEach>

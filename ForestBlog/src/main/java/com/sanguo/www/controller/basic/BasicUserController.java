@@ -1,4 +1,4 @@
-package com.sanguo.www.controller.admin;
+package com.sanguo.www.controller.basic;
 
 
 import cn.hutool.json.JSONUtil;
@@ -8,9 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,8 +27,8 @@ import java.util.Map;
  */
 @Slf4j
 @Controller
-@RequestMapping("/admin/user")
-public class BackUserController {
+@RequestMapping("/basic/user")
+public class BasicUserController {
 
     @Autowired
     private UserService userService;
@@ -158,7 +160,7 @@ public class BackUserController {
         User user =  userService.getUserById(id);
         modelAndView.addObject("user",user);
 
-        modelAndView.setViewName("Admin/User/edit");
+        modelAndView.setViewName("Admin/User/basicEdit");
         return modelAndView;
     }
 
@@ -188,7 +190,7 @@ public class BackUserController {
         User user =  userService.getUserById(sessionUser.getUserId());
         modelAndView.addObject("user",user);
 
-        modelAndView.setViewName("Admin/User/edit");
+        modelAndView.setViewName("Admin/User/basicEdit");
         log.info("xudonghui modelAndView = {}", JSONUtil.toJsonStr(modelAndView));
         return modelAndView;
     }
